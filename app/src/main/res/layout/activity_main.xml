@@ -1,63 +1,82 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:orientation="vertical"
-    android:background="#446CB3">
+    tools:context=".MainActivity">
 
-    <ImageView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/msg"
-        android:paddingTop="20dp" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#446CB3">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/msg"
+            android:paddingTop="20dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:layout_marginTop="10dp"
+            android:text="SocketChat"
+            android:textColor="@android:color/white"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_marginLeft="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Enter your name"
+            android:textSize="16sp"
+            android:textColor="@android:color/white" />
+
+        <EditText
+            android:id="@+id/username"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textColor="@android:color/black"
+            android:background="@android:color/white"
+            android:padding="10dp" />
+
+        <Button
+            android:id="@+id/connectBtn"
+            android:layout_width="130dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:background="#019875"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="40dp"
+            android:text="Connect" />
+
+        <ProgressBar
+            android:layout_marginTop="40dp"
+            android:layout_width="50dp"
+            android:visibility="gone"
+            android:layout_height="50dp"
+            android:id="@+id/loadingConnect"
+            android:layout_gravity="center_horizontal"
+            android:indeterminate="true" />
+
+    </LinearLayout>
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="24sp"
-        android:layout_marginTop="10dp"
-        android:text="SocketChat"
-        android:textColor="@android:color/white"
-        android:gravity="center" />
-
-    <TextView
-        android:layout_marginLeft="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Enter your name"
-        android:textSize="16sp"
-        android:textColor="@android:color/white" />
-
-    <EditText
-        android:id="@+id/username"
-        android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:background="@android:color/white"
-        android:padding="10dp"/>
-
-    <Button
-        android:id="@+id/connectBtn"
-        android:layout_width="130dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_height="wrap_content"
-        android:background="#019875"
-        android:textColor="@android:color/white"
-        android:layout_marginTop="40dp"
-        android:text="Connect"/>
-
-    <ProgressBar
-        android:layout_marginTop="40dp"
-        android:layout_width="50dp"
         android:visibility="gone"
-        android:layout_height="50dp"
-        android:id="@+id/loadingConnect"
-        android:layout_gravity="center_horizontal"
-        android:indeterminate="true"/>
+        android:id="@+id/tvError"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Error : Server not reachable, please check your internet connection"
+        android:padding="10dp"
+        android:layout_margin="5dp"
+        android:layout_alignParentBottom="true"
+        android:textColor="@android:color/white"
+        android:background="@color/flat_red" />
 
-</LinearLayout>
+</RelativeLayout>

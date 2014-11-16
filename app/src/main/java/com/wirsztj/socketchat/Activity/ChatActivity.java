@@ -53,6 +53,7 @@ public class ChatActivity extends Activity {
             @Override
             public void onClick(View view) {
                 socket.emit("userMsg", new Message(etUserMessage.getText().toString(), username).toJSONObject());
+                etUserMessage.setText("");
             }
         });
 

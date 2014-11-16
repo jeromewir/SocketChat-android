@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
@@ -25,18 +27,25 @@ public class MainActivity extends ActionBarActivity {
 
     public final static String USERNAME = "USERNAME";
 
+    Button connect;
+    ProgressBar loadingConnect;
+    EditText username;
+    TextView tvError;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final Button connect = (Button) findViewById(R.id.connectBtn);
-        final ProgressBar loadingConnect = (ProgressBar) findViewById(R.id.loadingConnect);
-        final EditText username = (EditText)findViewById(R.id.username);
+        connect = (Button) findViewById(R.id.connectBtn);
+        loadingConnect = (ProgressBar) findViewById(R.id.loadingConnect);
+        username = (EditText)findViewById(R.id.username);
+        tvError = (TextView)findViewById(R.id.tvError);
 
         connect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 loadingConnect.setVisibility(View.VISIBLE);
 
                 ServerConnection socket = ServerConnection.getInstance();
@@ -45,7 +54,7 @@ public class MainActivity extends ActionBarActivity {
 
                 socket.getSocket().connect();
 
-                socket.getSocket().on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+                socket.getSocket().once(Socket.EVENT_CONNECT, new Emitter.Listener() {
                     @Override
                     public void call(Object... args) {
                         Intent intent = new Intent(MainActivity.this, ChatActivity.class);
@@ -54,12 +63,37 @@ public class MainActivity extends ActionBarActivity {
 
                         startActivity(intent);
 
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                loadingConnect.setVisibility(View.GONE);
+                            }
+                        });
                     }
                 });
+
+                socket.getSocket().on(Socket.EVENT_CONNECT_ERROR, errorListener);
+                socket.getSocket().on(Socket.EVENT_CONNECT_TIMEOUT, errorListener);
 
             }
         });
 
     }
+
+    private Emitter.Listener errorListener = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            ServerConnection.getInstance().getSocket().close();
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    loadingConnect.setVisibility(View.GONE);
+                    tvError.setVisibility(View.VISIBLE);
+                    tvError.setText("Error: Cannot reach server, please check your internet connection");
+                }
+            });
+        }
+    };
 
 }

@@ -24,6 +24,8 @@ public class ServerConnection {
     }
 
     public void init(String url) {
+        if (mSocket != null)
+            mSocket.disconnect();
         try {
             mSocket = IO.socket(url);
         } catch (URISyntaxException e) {
