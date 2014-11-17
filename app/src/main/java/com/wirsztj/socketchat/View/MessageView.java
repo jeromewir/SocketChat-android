@@ -4,8 +4,10 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -40,8 +42,8 @@ public class MessageView extends RelativeLayout {
     public void bind(Message message, boolean isAuthor) {
 
         if (message.getMessageType() == Message.MessageType.CONNECT || message.getMessageType() == Message.MessageType.DISCONNECT) {
-            ((RelativeLayout.LayoutParams) tvMessage.getLayoutParams()).addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-            ((RelativeLayout.LayoutParams) author.getLayoutParams()).addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+            ((LinearLayout.LayoutParams) tvMessage.getLayoutParams()).gravity = Gravity.LEFT;
+            ((LinearLayout.LayoutParams) author.getLayoutParams()).gravity = Gravity.LEFT;
             tvMessage.setVisibility(View.GONE);
             author.setText(message.getAuthor() + (message.getMessageType() == Message.MessageType.CONNECT ? " has joined the room" : " has left"));
             author.setTypeface(null, Typeface.ITALIC);
@@ -52,11 +54,11 @@ public class MessageView extends RelativeLayout {
         tvMessage.setVisibility(View.VISIBLE);
 
         if (isAuthor) {
-            ((RelativeLayout.LayoutParams) tvMessage.getLayoutParams()).addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-            ((RelativeLayout.LayoutParams) author.getLayoutParams()).addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            ((LinearLayout.LayoutParams) tvMessage.getLayoutParams()).gravity = Gravity.RIGHT;
+            ((LinearLayout.LayoutParams) author.getLayoutParams()).gravity = Gravity.RIGHT;
         } else {
-            ((RelativeLayout.LayoutParams) tvMessage.getLayoutParams()).addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-            ((RelativeLayout.LayoutParams) author.getLayoutParams()).addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+            ((LinearLayout.LayoutParams) tvMessage.getLayoutParams()).gravity = Gravity.LEFT;
+            ((LinearLayout.LayoutParams) author.getLayoutParams()).gravity = Gravity.LEFT;
         }
         author.setText(!isAuthor ? message.getAuthor() : "You");
         tvMessage.setText(message.getMsg());

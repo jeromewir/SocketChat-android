@@ -19,10 +19,11 @@
 
         <EditText
             android:id="@+id/etUserMessage"
-            android:layout_alignTop="@+id/sendBtn"
-            android:layout_alignBottom="@+id/sendBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="3dp"
+            android:layout_alignTop="@+id/sendBtn"
+            android:layout_alignBottom="@+id/sendBtn"
             android:background="@android:color/white"
             android:layout_toLeftOf="@+id/sendBtn"/>
 

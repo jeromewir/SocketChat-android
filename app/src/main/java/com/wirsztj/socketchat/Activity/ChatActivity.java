@@ -28,6 +28,8 @@ public class ChatActivity extends Activity {
     Socket socket;
     String username;
 
+    ListView listView;
+
     MessageAdapter adapter;
 
     EditText etUserMessage;
@@ -45,7 +47,7 @@ public class ChatActivity extends Activity {
         adapter.setUsername(username);
         adapter.setList(new ArrayList<Message>());
 
-        ListView listView = (ListView) findViewById(R.id.listView);
+        listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(adapter);
 
         Button sendBtn = (Button)findViewById(R.id.sendBtn);
@@ -68,7 +70,7 @@ public class ChatActivity extends Activity {
         socket.on("serverMsg", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                addMessage(Message.MessageType.MESSAGE, (JSONObject)args[0]);
+                addMessage(Message.MessageType.MESSAGE, (JSONObject) args[0]);
             }
         });
 
@@ -76,14 +78,14 @@ public class ChatActivity extends Activity {
             @Override
             public void call(Object... args) {
                 Log.e("tata", "userDisconnected");
-                addMessage(Message.MessageType.DISCONNECT, (JSONObject)args[0]);
+                addMessage(Message.MessageType.DISCONNECT, (JSONObject) args[0]);
             }
         });
 
         socket.on("userConnected", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                addMessage(Message.MessageType.CONNECT, (JSONObject)args[0]);
+                addMessage(Message.MessageType.CONNECT, (JSONObject) args[0]);
             }
         });
     }
@@ -97,6 +99,7 @@ public class ChatActivity extends Activity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                listView.setSelection(adapter.getCount() - 1);
             }
         });
     }
