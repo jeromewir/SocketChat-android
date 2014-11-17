@@ -10,7 +10,8 @@ public class Message {
 
     public enum MessageType {
         MESSAGE,
-        CONNECTION
+        CONNECT,
+        DISCONNECT
     }
 
     private String author;
@@ -22,7 +23,7 @@ public class Message {
 
     public Message(JSONObject jsonObject, MessageType type) throws JSONException {
         this(jsonObject);
-        this.messageType = MessageType.CONNECTION;
+        this.messageType = type;
     }
 
     public Message(String msg, String author) {

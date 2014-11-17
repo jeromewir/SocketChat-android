@@ -32,7 +32,7 @@ public class MainActivity extends ActionBarActivity {
     EditText username;
     TextView tvError;
 
-    private String serverUrl = "http://192.168.1.17:1337";
+    private String serverUrl = "http://192.168.1.2:1337";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

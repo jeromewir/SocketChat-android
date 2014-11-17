@@ -68,47 +68,42 @@ public class ChatActivity extends Activity {
         socket.on("serverMsg", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                final JSONObject msg = (JSONObject) args[0];
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            adapter.addMessage(new Message(msg));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                });
+                addMessage(Message.MessageType.MESSAGE, (JSONObject)args[0]);
             }
         });
 
-        socket.once("userConnected", new Emitter.Listener() {
+        socket.on("userDisconnected", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                final JSONObject msg = (JSONObject) args[0];
+                Log.e("tata", "userDisconnected");
+                addMessage(Message.MessageType.DISCONNECT, (JSONObject)args[0]);
+            }
+        });
 
-                Log.e("tata", msg.toString());
+        socket.on("userConnected", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                addMessage(Message.MessageType.CONNECT, (JSONObject)args[0]);
+            }
+        });
+    }
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            adapter.addMessage(new Message(msg, Message.MessageType.CONNECTION));
-                        }
-                        catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-
+    private void addMessage(final Message.MessageType messageType, final JSONObject jsonObject) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    adapter.addMessage(new Message(jsonObject, messageType));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
 
     @Override
     public void onBackPressed() {
+        socket.close();
         socket.disconnect();
         super.onBackPressed();
     }
