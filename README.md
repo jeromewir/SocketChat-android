@@ -5,4 +5,4 @@ Android chat over socket
 
 Server here : https://github.com/jeromewir/SocketChat-nodejs
 
-![](http://i.imgur.com/ofwf1dE.png =10x10)
+<img src="http://i.imgur.com/ofwf1dE.png" style="width: 100px; height: 100px"/>
