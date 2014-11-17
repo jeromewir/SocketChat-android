@@ -83,6 +83,28 @@ public class ChatActivity extends Activity {
                 });
             }
         });
+
+        socket.once("userConnected", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                final JSONObject msg = (JSONObject) args[0];
+
+                Log.e("tata", msg.toString());
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            adapter.addMessage(new Message(msg, Message.MessageType.CONNECTION));
+                        }
+                        catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+            }
+        });
     }
 
     @Override

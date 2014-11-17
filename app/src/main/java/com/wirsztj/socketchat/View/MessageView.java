@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -37,6 +38,17 @@ public class MessageView extends RelativeLayout {
     }
 
     public void bind(Message message, boolean isAuthor) {
+
+        if (message.getMessageType() == Message.MessageType.CONNECTION) {
+            ((RelativeLayout.LayoutParams)tvMessage.getLayoutParams()).addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+            ((RelativeLayout.LayoutParams)author.getLayoutParams()).addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+            author.setVisibility(View.GONE);
+            tvMessage.setText(message.getAuthor() + " has joined the room");
+            return ;
+        }
+
+        author.setVisibility(View.VISIBLE);
+
         if (isAuthor) {
             ((RelativeLayout.LayoutParams)tvMessage.getLayoutParams()).addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             ((RelativeLayout.LayoutParams)author.getLayoutParams()).addRule(RelativeLayout.ALIGN_PARENT_RIGHT);

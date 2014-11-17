@@ -32,6 +32,8 @@ public class MainActivity extends ActionBarActivity {
     EditText username;
     TextView tvError;
 
+    private String serverUrl = "http://192.168.1.17:1337";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,15 +56,18 @@ public class MainActivity extends ActionBarActivity {
 
                 loadingConnect.setVisibility(View.VISIBLE);
 
-                ServerConnection socket = ServerConnection.getInstance();
+                final ServerConnection socket = ServerConnection.getInstance();
 
-                socket.init("http://192.168.1.2:1337");
+                socket.init(serverUrl);
 
                 socket.getSocket().connect();
 
                 socket.getSocket().once(Socket.EVENT_CONNECT, new Emitter.Listener() {
                     @Override
                     public void call(Object... args) {
+
+                        socket.getSocket().emit("userConnected", username.getText().toString());
+
                         Intent intent = new Intent(MainActivity.this, ChatActivity.class);
 
                         intent.putExtra(USERNAME, username.getText().toString());
