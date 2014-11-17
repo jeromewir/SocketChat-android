@@ -46,6 +46,12 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
 
+                if (!checkUsername()) {
+                    return;
+                }
+
+                username.setError(null);
+
                 loadingConnect.setVisibility(View.VISIBLE);
 
                 ServerConnection socket = ServerConnection.getInstance();
@@ -95,5 +101,13 @@ public class MainActivity extends ActionBarActivity {
             });
         }
     };
+
+    private boolean checkUsername() {
+        if (username.getText().toString().trim().equalsIgnoreCase("")) {
+            username.setError("Username can't be blank");
+            return false;
+        }
+        return true;
+    }
 
 }

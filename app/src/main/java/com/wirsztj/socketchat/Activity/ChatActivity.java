@@ -30,6 +30,8 @@ public class ChatActivity extends Activity {
 
     MessageAdapter adapter;
 
+    EditText etUserMessage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,13 +49,17 @@ public class ChatActivity extends Activity {
         listView.setAdapter(adapter);
 
         Button sendBtn = (Button)findViewById(R.id.sendBtn);
-        final EditText etUserMessage = (EditText)findViewById(R.id.etUserMessage);
+        etUserMessage = (EditText)findViewById(R.id.etUserMessage);
 
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!checkMessage()) {
+                    return;
+                }
                 socket.emit("userMsg", new Message(etUserMessage.getText().toString(), username).toJSONObject());
                 etUserMessage.setText("");
+                etUserMessage.setError(null);
             }
         });
 
@@ -83,5 +89,13 @@ public class ChatActivity extends Activity {
     public void onBackPressed() {
         socket.disconnect();
         super.onBackPressed();
+    }
+
+    public boolean checkMessage() {
+        if (etUserMessage.getText().toString().trim().equalsIgnoreCase("")) {
+            etUserMessage.setError("Message required");
+            return false;
+        }
+        return true;
     }
 }
